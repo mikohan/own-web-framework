@@ -1,17 +1,15 @@
 import { User } from './models/User';
 
-const user2 = new User({ id: 3 });
+const appDiv = document.getElementById('app') as HTMLElement;
 
-user2.set({ name: 'Pretty' });
-user2.set({ age: 22 });
+function render(value: any): void {
+  const content: HTMLElement = document.createElement('div');
+  content.innerHTML = `<pre>${JSON.stringify(value, null, 4)}</pre>`;
+  appDiv.appendChild(content);
+}
 
-user2.save();
+const user = new User({ name: 'Kristina', age: 28 });
 
-setTimeout(() => {
-  console.log(user2);
-}, 2000);
+const name = user.get('name');
 
-user2.events.on('change', () => {
-  console.log('Change!!!');
-});
-user2.events.trigger('change');
+render(name);
