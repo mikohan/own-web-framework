@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { url } from '../config';
-type Callback = () => void;
+import { Eventing } from './Eventing';
 
 interface NativeUserProps {
   [key: string]: any;
@@ -9,7 +9,7 @@ interface NativeUserProps {
   age?: number;
 }
 export class User {
-  events: { [key: string]: Callback[] } = {};
+  public events: Eventing = new Eventing();
   constructor(private data: NativeUserProps) {}
   get(propName: string): number | string {
     return this.data[propName];
@@ -19,27 +19,20 @@ export class User {
     Object.assign(this.data, update);
   }
 
-  on(eventName: string, callback: Callback) {
-    const handlers = this.events[eventName] || [];
-    handlers.push(callback);
-    this.events[eventName] = handlers;
-  }
-
-  trigger(eventName: string): void {
-    const handlers = this.events[eventName];
-    if (!handlers || handlers.length === 0) {
-      return;
-    }
-    handlers.forEach((callback) => {
-      callback();
-    });
-  }
-
   fetch(): void {
     axios
       .get(`${url}/users/${this.get('id')}`)
       .then((response: AxiosResponse) => {
         this.set(response.data);
       });
+  }
+
+  save(): void {
+    const id = this.get('id');
+    if (id) {
+      axios.put(`${url}/users/${id}`, this.data);
+    } else {
+      axios.post(`${url}/users`, this.data);
+    }
   }
 }

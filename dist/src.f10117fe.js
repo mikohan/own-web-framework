@@ -1909,6 +1909,53 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.url = void 0;
 exports.url = "http://localhost:3000";
+},{}],"src/models/Eventing.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Eventing = void 0;
+
+var Eventing = /*#__PURE__*/function () {
+  function Eventing() {
+    _classCallCheck(this, Eventing);
+
+    this.events = {};
+  }
+
+  _createClass(Eventing, [{
+    key: "on",
+    value: function on(eventName, callback) {
+      var handlers = this.events[eventName] || [];
+      handlers.push(callback);
+      this.events[eventName] = handlers;
+    }
+  }, {
+    key: "trigger",
+    value: function trigger(eventName) {
+      var handlers = this.events[eventName];
+
+      if (!handlers || handlers.length === 0) {
+        return;
+      }
+
+      handlers.forEach(function (callback) {
+        callback();
+      });
+    }
+  }]);
+
+  return Eventing;
+}();
+
+exports.Eventing = Eventing;
 },{}],"src/models/User.ts":[function(require,module,exports) {
 "use strict";
 
@@ -1933,12 +1980,14 @@ var axios_1 = __importDefault(require("axios"));
 
 var config_1 = require("../config");
 
+var Eventing_1 = require("./Eventing");
+
 var User = /*#__PURE__*/function () {
   function User(data) {
     _classCallCheck(this, User);
 
     this.data = data;
-    this.events = {};
+    this.events = new Eventing_1.Eventing();
   }
 
   _createClass(User, [{
@@ -1952,26 +2001,6 @@ var User = /*#__PURE__*/function () {
       Object.assign(this.data, update);
     }
   }, {
-    key: "on",
-    value: function on(eventName, callback) {
-      var handlers = this.events[eventName] || [];
-      handlers.push(callback);
-      this.events[eventName] = handlers;
-    }
-  }, {
-    key: "trigger",
-    value: function trigger(eventName) {
-      var handlers = this.events[eventName];
-
-      if (!handlers || handlers.length === 0) {
-        return;
-      }
-
-      handlers.forEach(function (callback) {
-        callback();
-      });
-    }
-  }, {
     key: "fetch",
     value: function fetch() {
       var _this = this;
@@ -1980,13 +2009,24 @@ var User = /*#__PURE__*/function () {
         _this.set(response.data);
       });
     }
+  }, {
+    key: "save",
+    value: function save() {
+      var id = this.get('id');
+
+      if (id) {
+        axios_1.default.put("".concat(config_1.url, "/users/").concat(id), this.data);
+      } else {
+        axios_1.default.post("".concat(config_1.url, "/users"), this.data);
+      }
+    }
   }]);
 
   return User;
 }();
 
 exports.User = User;
-},{"axios":"node_modules/axios/index.js","../config":"src/config.ts"}],"src/index.ts":[function(require,module,exports) {
+},{"axios":"node_modules/axios/index.js","../config":"src/config.ts","./Eventing":"src/models/Eventing.ts"}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1995,13 +2035,23 @@ Object.defineProperty(exports, "__esModule", {
 
 var User_1 = require("./models/User");
 
-var user = new User_1.User({
-  id: 1
+var user2 = new User_1.User({
+  id: 3
 });
-user.fetch();
+user2.set({
+  name: 'Pretty'
+});
+user2.set({
+  age: 22
+});
+user2.save();
 setTimeout(function () {
-  console.log(user.get('name'), user.get('age'), user.get('id'));
+  console.log(user2);
 }, 2000);
+user2.events.on('change', function () {
+  console.log('Change!!!');
+});
+user2.events.trigger('change');
 },{"./models/User":"src/models/User.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
