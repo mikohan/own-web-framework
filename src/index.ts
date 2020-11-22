@@ -1,6 +1,8 @@
-import axios from 'axios';
 import { User } from './models/User';
-const url: string = `http://localhost:3000/users`;
-const user = new User({ name: 'Vladimir', age: 49 });
 
-// axios.delete(url + '/2');
+const user = new User({ id: 1 });
+
+user.fetch();
+setTimeout(() => {
+  console.log(user.get('name'), user.get('age'), user.get('id'));
+}, 2000);

@@ -1,7 +1,10 @@
+import axios, { AxiosResponse } from 'axios';
+import { url } from '../config';
 type Callback = () => void;
 
 interface NativeUserProps {
   [key: string]: any;
+  id?: number;
   name?: string;
   age?: number;
 }
@@ -30,5 +33,13 @@ export class User {
     handlers.forEach((callback) => {
       callback();
     });
+  }
+
+  fetch(): void {
+    axios
+      .get(`${url}/users/${this.get('id')}`)
+      .then((response: AxiosResponse) => {
+        this.set(response.data);
+      });
   }
 }
