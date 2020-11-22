@@ -120,16 +120,16 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"src/models/User.ts":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.User = void 0;
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.User = void 0;
 
 var User = /*#__PURE__*/function () {
   function User(data) {
@@ -178,23 +178,17 @@ exports.User = User;
 },{}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
-var _User = require("./models/User");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var user = new _User.User({
+var User_1 = require("./models/User");
+
+var url = "http://localhost:3000/users";
+var user = new User_1.User({
   name: 'Vladimir',
   age: 49
-});
-user.on('MyEvent', function () {
-  return console.log('Some thintg');
-});
-user.on('Next event', function () {
-  console.log('My event trigered');
-});
-user.on('MyEvent', function () {
-  console.log('Another MyEvent triggered');
-});
-user.trigger('MyEvent');
-user.trigger('MyEventdjdjd');
+}); // axios.delete(url + '/2');
 },{"./models/User":"src/models/User.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -223,7 +217,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43509" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38711" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
