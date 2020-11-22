@@ -8,13 +8,15 @@ function render(value: any): void {
   appDiv.appendChild(content);
 }
 
-const user = new User({ name: 'Kristina', age: 28 });
+const user = new User({ name: 'Sexy Lady', age: 34 });
 
-user.set({ name: 'Julia' });
-
-user.on('change', () => {
-  console.log('user was changed');
+user.on('save', () => {
+  console.log(user);
 });
-const name = user.get('name');
 
-render(name);
+user.save();
+
+setTimeout(() => {
+  const name = user.get('name');
+  render(name);
+}, 1000);

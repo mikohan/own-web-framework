@@ -2030,6 +2030,11 @@ var Attributes = /*#__PURE__*/function () {
     value: function set(update) {
       Object.assign(this.data, update);
     }
+  }, {
+    key: "getAll",
+    value: function getAll() {
+      return this.data;
+    }
   }]);
 
   return Attributes;
@@ -2076,7 +2081,28 @@ var User = /*#__PURE__*/function () {
   }, {
     key: "fetch",
     value: function fetch() {
-      var id = this.attributes.get('id');
+      var _this = this;
+
+      var id = this.get('id');
+
+      if (typeof id !== 'number') {
+        throw new Error('ID is not provided. Cannot fetch data without id.');
+      }
+
+      this.sync.fetch(id).then(function (result) {
+        _this.set(result.data);
+      });
+    }
+  }, {
+    key: "save",
+    value: function save() {
+      var _this2 = this;
+
+      this.sync.save(this.attributes.getAll()).then(function (response) {
+        _this2.trigger('save');
+      }).catch(function () {
+        _this2.trigger('error');
+      });
     }
   }, {
     key: "on",
@@ -2117,17 +2143,17 @@ function render(value) {
 }
 
 var user = new User_1.User({
-  name: 'Kristina',
-  age: 28
+  name: 'Sexy Lady',
+  age: 34
 });
-user.set({
-  name: 'Julia'
+user.on('save', function () {
+  console.log(user);
 });
-user.on('change', function () {
-  console.log('user was changed');
-});
-var name = user.get('name');
-render(name);
+user.save();
+setTimeout(function () {
+  var name = user.get('name');
+  render(name);
+}, 1000);
 },{"./models/User":"src/models/User.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
