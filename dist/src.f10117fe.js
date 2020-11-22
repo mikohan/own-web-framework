@@ -136,6 +136,7 @@ var User = /*#__PURE__*/function () {
     _classCallCheck(this, User);
 
     this.data = data;
+    this.events = {};
   }
 
   _createClass(User, [{
@@ -147,6 +148,26 @@ var User = /*#__PURE__*/function () {
     key: "set",
     value: function set(update) {
       Object.assign(this.data, update);
+    }
+  }, {
+    key: "on",
+    value: function on(eventName, callback) {
+      var handlers = this.events[eventName] || [];
+      handlers.push(callback);
+      this.events[eventName] = handlers;
+    }
+  }, {
+    key: "trigger",
+    value: function trigger(eventName) {
+      var handlers = this.events[eventName];
+
+      if (!handlers || handlers.length === 0) {
+        return;
+      }
+
+      handlers.forEach(function (callback) {
+        callback();
+      });
     }
   }]);
 
@@ -163,10 +184,17 @@ var user = new _User.User({
   name: 'Vladimir',
   age: 49
 });
-user.set({
-  name: 'Halk'
+user.on('MyEvent', function () {
+  return console.log('Some thintg');
 });
-console.log(user.get('name'), user.get('age'));
+user.on('Next event', function () {
+  console.log('My event trigered');
+});
+user.on('MyEvent', function () {
+  console.log('Another MyEvent triggered');
+});
+user.trigger('MyEvent');
+user.trigger('MyEventdjdjd');
 },{"./models/User":"src/models/User.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
