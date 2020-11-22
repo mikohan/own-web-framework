@@ -125,20 +125,30 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.User = void 0;
 
-var User =
-/** @class */
-function () {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var User = /*#__PURE__*/function () {
   function User(data) {
+    _classCallCheck(this, User);
+
     this.data = data;
   }
 
-  User.prototype.get = function (propName) {
-    return this.data[propName];
-  };
-
-  User.prototype.set = function (update) {
-    Object.assign(this.data, update);
-  };
+  _createClass(User, [{
+    key: "get",
+    value: function get(propName) {
+      return this.data[propName];
+    }
+  }, {
+    key: "set",
+    value: function set(update) {
+      Object.assign(this.data, update);
+    }
+  }]);
 
   return User;
 }();
@@ -147,15 +157,14 @@ exports.User = User;
 },{}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _User = require("./models/User");
 
-var User_1 = require("./models/User");
-
-var user = new User_1.User({
+var user = new _User.User({
   name: 'Vladimir',
   age: 49
+});
+user.set({
+  name: 'Halk'
 });
 console.log(user.get('name'), user.get('age'));
 },{"./models/User":"src/models/User.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
