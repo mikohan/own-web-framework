@@ -2068,6 +2068,17 @@ var User = /*#__PURE__*/function () {
   }
 
   _createClass(User, [{
+    key: "set",
+    value: function set(update) {
+      this.attributes.set(update);
+      this.events.trigger('change');
+    }
+  }, {
+    key: "fetch",
+    value: function fetch() {
+      var id = this.attributes.get('id');
+    }
+  }, {
     key: "on",
     get: function get() {
       return this.events.on;
@@ -2108,6 +2119,12 @@ function render(value) {
 var user = new User_1.User({
   name: 'Kristina',
   age: 28
+});
+user.set({
+  name: 'Julia'
+});
+user.on('change', function () {
+  console.log('user was changed');
 });
 var name = user.get('name');
 render(name);

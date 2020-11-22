@@ -10,6 +10,11 @@ function render(value: any): void {
 
 const user = new User({ name: 'Kristina', age: 28 });
 
+user.set({ name: 'Julia' });
+
+user.on('change', () => {
+  console.log('user was changed');
+});
 const name = user.get('name');
 
 render(name);

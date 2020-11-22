@@ -2,7 +2,6 @@ import { Eventing } from './Eventing';
 import { Sync } from './Sync';
 import { url } from '../config';
 import { Attributes } from './Attributes';
-import { Callback } from './Eventing';
 
 export interface UserProps {
   id?: number;
@@ -26,5 +25,14 @@ export class User {
   }
   get get() {
     return this.attributes.get;
+  }
+
+  set(update: UserProps) {
+    this.attributes.set(update);
+    this.events.trigger('change');
+  }
+
+  fetch(): void {
+    const id = this.attributes.get('id');
   }
 }
