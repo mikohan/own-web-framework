@@ -4,7 +4,7 @@ interface IHasId {
   id?: number;
 }
 
-export class Sync<T extends IHasId> {
+export class APISync<T extends IHasId> {
   constructor(public url: string) {}
   fetch(id: number): AxiosPromise {
     return axios.get(`${this.url}/users/${id}`);
