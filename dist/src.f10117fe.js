@@ -139,6 +139,18 @@ var UserForm = /*#__PURE__*/function () {
   }
 
   _createClass(UserForm, [{
+    key: "eventsMap",
+    value: function eventsMap() {
+      return {
+        'click:button': this.onButtonClick
+      };
+    }
+  }, {
+    key: "onButtonClick",
+    value: function onButtonClick() {
+      console.log('Hi there');
+    }
+  }, {
     key: "template",
     value: function template() {
       return "\n    <div>\n    <h1>User Form</h1>\n    <input />\n    </div>\n    ";
