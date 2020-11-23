@@ -1,9 +1,11 @@
-import { User } from './User';
+import { User, UserProps } from './User';
 import { Eventing } from './Eventing';
+import axios, { AxiosResponse } from 'axios';
 
 export class Collection {
   models: User[] = [];
   events: Eventing = new Eventing();
+  constructor(public rootUrl: string) {}
 
   get on() {
     return this.events.on;
@@ -11,5 +13,15 @@ export class Collection {
 
   get trigger() {
     return this.events.trigger;
+  }
+
+  fetch(): void {
+    axios.get(`${this.rootUrl}/users`).then((response: AxiosResponse) => {
+      response.data.forEach((item: UserProps) => {
+        const user = User.buildUser(item);
+        this.models.push(user);
+      });
+      this.trigger('change');
+    });
   }
 }

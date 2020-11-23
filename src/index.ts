@@ -1,4 +1,6 @@
 import { User } from './models/User';
+import { Collection } from './models/Collection';
+import { url } from './config';
 
 const appDiv = document.getElementById('app') as HTMLElement;
 
@@ -8,13 +10,15 @@ function render(value: any): void {
   appDiv.appendChild(content);
 }
 
-const user = User.buildUser({ id: 3 });
-user.on('change', () => {
-  console.log(user);
+const collection = new Collection(url);
+
+collection.fetch();
+
+collection.on('change', () => {
+  render(collection.models);
+  console.log(collection.models);
 });
-user.set({ name: 'Olesya' });
-user.set({ age: 47 });
-setTimeout(() => {
-  const name = user.get('name');
-  render(name);
-}, 1000);
+
+// setTimeout(() => {
+//   render(collection.models);
+// }, 1000);

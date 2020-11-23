@@ -2167,14 +2167,82 @@ var User = /*#__PURE__*/function (_Model_1$Model) {
 }(Model_1.Model);
 
 exports.User = User;
-},{"./Model":"src/models/Model.ts","./Attributes":"src/models/Attributes.ts","./Eventing":"src/models/Eventing.ts","./APISync":"src/models/APISync.ts","../config":"src/config.ts"}],"src/index.ts":[function(require,module,exports) {
+},{"./Model":"src/models/Model.ts","./Attributes":"src/models/Attributes.ts","./Eventing":"src/models/Eventing.ts","./APISync":"src/models/APISync.ts","../config":"src/config.ts"}],"src/models/Collection.ts":[function(require,module,exports) {
+"use strict";
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Collection = void 0;
+
+var User_1 = require("./User");
+
+var Eventing_1 = require("./Eventing");
+
+var axios_1 = __importDefault(require("axios"));
+
+var Collection = /*#__PURE__*/function () {
+  function Collection(rootUrl) {
+    _classCallCheck(this, Collection);
+
+    this.rootUrl = rootUrl;
+    this.models = [];
+    this.events = new Eventing_1.Eventing();
+  }
+
+  _createClass(Collection, [{
+    key: "fetch",
+    value: function fetch() {
+      var _this = this;
+
+      axios_1.default.get("".concat(this.rootUrl, "/users")).then(function (response) {
+        response.data.forEach(function (item) {
+          var user = User_1.User.buildUser(item);
+
+          _this.models.push(user);
+        });
+
+        _this.trigger('change');
+      });
+    }
+  }, {
+    key: "on",
+    get: function get() {
+      return this.events.on;
+    }
+  }, {
+    key: "trigger",
+    get: function get() {
+      return this.events.trigger;
+    }
+  }]);
+
+  return Collection;
+}();
+
+exports.Collection = Collection;
+},{"./User":"src/models/User.ts","./Eventing":"src/models/Eventing.ts","axios":"node_modules/axios/index.js"}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var User_1 = require("./models/User");
+var Collection_1 = require("./models/Collection");
+
+var config_1 = require("./config");
 
 var appDiv = document.getElementById('app');
 
@@ -2184,23 +2252,15 @@ function render(value) {
   appDiv.appendChild(content);
 }
 
-var user = User_1.User.buildUser({
-  id: 3
-});
-user.on('change', function () {
-  console.log(user);
-});
-user.set({
-  name: 'Olesya'
-});
-user.set({
-  age: 47
-});
-setTimeout(function () {
-  var name = user.get('name');
-  render(name);
-}, 1000);
-},{"./models/User":"src/models/User.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var collection = new Collection_1.Collection(config_1.url);
+collection.fetch();
+collection.on('change', function () {
+  render(collection.models);
+  console.log(collection.models);
+}); // setTimeout(() => {
+//   render(collection.models);
+// }, 1000);
+},{"./models/Collection":"src/models/Collection.ts","./config":"src/config.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
