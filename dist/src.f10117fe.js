@@ -2196,14 +2196,18 @@ function render(value) {
   appDiv.appendChild(content);
 }
 
-var user = new User_1.User({
-  name: 'Sexy Lady',
-  age: 34
+var user = User_1.User.buildUser({
+  id: 3
 });
-user.on('save', function () {
+user.on('change', function () {
   console.log(user);
 });
-user.save();
+user.set({
+  name: 'Olesya'
+});
+user.set({
+  age: 47
+});
 setTimeout(function () {
   var name = user.get('name');
   render(name);

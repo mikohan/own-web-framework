@@ -8,14 +8,12 @@ function render(value: any): void {
   appDiv.appendChild(content);
 }
 
-const user = new User({ name: 'Sexy Lady', age: 34 });
-
-user.on('save', () => {
+const user = User.buildUser({ id: 3 });
+user.on('change', () => {
   console.log(user);
 });
-
-user.save();
-
+user.set({ name: 'Olesya' });
+user.set({ age: 47 });
 setTimeout(() => {
   const name = user.get('name');
   render(name);
