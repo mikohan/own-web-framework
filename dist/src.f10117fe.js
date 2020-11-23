@@ -2282,6 +2282,16 @@ var UserForm = /*#__PURE__*/function () {
     this.parent = parent;
     this.model = model;
 
+    this.onSetNameClick = function () {
+      var input = _this.parent.querySelector('input');
+
+      var name = input.value;
+
+      _this.model.set({
+        name: name
+      });
+    };
+
     this.onSetAgeClick = function () {
       _this.model.setRandomAge();
     };
@@ -2302,13 +2312,14 @@ var UserForm = /*#__PURE__*/function () {
     key: "eventsMap",
     value: function eventsMap() {
       return {
-        'click:.set-age': this.onSetAgeClick
+        'click:.set-age': this.onSetAgeClick,
+        'click:.set-name': this.onSetNameClick
       };
     }
   }, {
     key: "template",
     value: function template() {
-      return "\n    <div>\n    <h1>User Form</h1>\n    <h4>".concat(this.model.get('name'), "</h4>\n    <h4>").concat(this.model.get('age'), "</h4>\n    <input />\n    <button>Click Me</button>\n    <button class=\"set-age\">Set Age</button>\n    </div>\n    ");
+      return "\n    <div>\n    <h1>User Form</h1>\n    <h4>".concat(this.model.get('name'), "</h4>\n    <h4>").concat(this.model.get('age'), "</h4>\n    <input />\n    <button class=\"set-name\">Change Name</button>\n    <button class=\"set-age\">Set Age</button>\n    </div>\n    ");
     }
   }, {
     key: "bindEvents",
