@@ -2285,9 +2285,20 @@ var UserForm = /*#__PURE__*/function () {
     this.onSetAgeClick = function () {
       _this.model.setRandomAge();
     };
+
+    this.bindModel();
   }
 
   _createClass(UserForm, [{
+    key: "bindModel",
+    value: function bindModel() {
+      var _this2 = this;
+
+      this.model.on('change', function () {
+        _this2.render();
+      });
+    }
+  }, {
     key: "eventsMap",
     value: function eventsMap() {
       return {
@@ -2322,6 +2333,7 @@ var UserForm = /*#__PURE__*/function () {
   }, {
     key: "render",
     value: function render() {
+      this.parent.innerHTML = '';
       var templateElement = document.createElement('template');
       templateElement.innerHTML = this.template();
       this.bindEvents(templateElement.content);
