@@ -1,4 +1,5 @@
 import { User } from './models/User';
+import { UserForm } from './views/UserForm';
 
 const appDiv = document.getElementById('app') as HTMLElement;
 
@@ -8,14 +9,6 @@ function render(value: any): void {
   appDiv.appendChild(content);
 }
 
-const collection = User.buildCollection();
-collection.fetch();
+const userForm = new UserForm(document.querySelector('#app'));
 
-collection.on('change', () => {
-  render(collection.models);
-  console.log(collection.models);
-});
-
-// setTimeout(() => {
-//   render(collection.models);
-// }, 1000);
+userForm.render();
