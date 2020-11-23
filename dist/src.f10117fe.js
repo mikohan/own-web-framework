@@ -2221,7 +2221,15 @@ var User = /*#__PURE__*/function (_Model_1$Model) {
     return _super.apply(this, arguments);
   }
 
-  _createClass(User, null, [{
+  _createClass(User, [{
+    key: "setRandomAge",
+    value: function setRandomAge() {
+      var age = Math.round(Math.random() * 100);
+      this.set({
+        age: age
+      });
+    }
+  }], [{
     key: "buildUser",
     value: function buildUser(attrs) {
       return new User(new Attributes_1.Attributes(attrs), new Eventing_1.Eventing(), new APISync_1.APISync(config_1.url));
@@ -2267,34 +2275,29 @@ exports.UserForm = void 0;
 
 var UserForm = /*#__PURE__*/function () {
   function UserForm(parent, model) {
+    var _this = this;
+
     _classCallCheck(this, UserForm);
 
     this.parent = parent;
     this.model = model;
+
+    this.onSetAgeClick = function () {
+      _this.model.setRandomAge();
+    };
   }
 
   _createClass(UserForm, [{
     key: "eventsMap",
     value: function eventsMap() {
       return {
-        'click:button': this.onButtonClick,
-        'mouseenter:h4': this.onHeaderHover
+        'click:.set-age': this.onSetAgeClick
       };
-    }
-  }, {
-    key: "onButtonClick",
-    value: function onButtonClick() {
-      console.log('Hi there');
-    }
-  }, {
-    key: "onHeaderHover",
-    value: function onHeaderHover() {
-      console.log('Hovered h1 title');
     }
   }, {
     key: "template",
     value: function template() {
-      return "\n    <div>\n    <h1>User Form</h1>\n    <h4>".concat(this.model.get('name'), "</h4>\n    <h4>").concat(this.model.get('age'), "</h4>\n    <input />\n    <button>Click Me</button>\n    </div>\n    ");
+      return "\n    <div>\n    <h1>User Form</h1>\n    <h4>".concat(this.model.get('name'), "</h4>\n    <h4>").concat(this.model.get('age'), "</h4>\n    <input />\n    <button>Click Me</button>\n    <button class=\"set-age\">Set Age</button>\n    </div>\n    ");
     }
   }, {
     key: "bindEvents",
