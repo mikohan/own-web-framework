@@ -1,4 +1,4 @@
-import { User } from './models/User';
+import { User, UserProps } from './models/User';
 import { Collection } from './models/Collection';
 import { url } from './config';
 
@@ -10,7 +10,9 @@ function render(value: any): void {
   appDiv.appendChild(content);
 }
 
-const collection = new Collection(url);
+const collection = new Collection<User, UserProps>(url, (json: UserProps) =>
+  User.buildUser(json)
+);
 
 collection.fetch();
 
