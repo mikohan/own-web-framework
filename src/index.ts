@@ -1,6 +1,4 @@
-import { User, UserProps } from './models/User';
-import { Collection } from './models/Collection';
-import { url } from './config';
+import { User } from './models/User';
 
 const appDiv = document.getElementById('app') as HTMLElement;
 
@@ -10,10 +8,7 @@ function render(value: any): void {
   appDiv.appendChild(content);
 }
 
-const collection = new Collection<User, UserProps>(url, (json: UserProps) =>
-  User.buildUser(json)
-);
-
+const collection = User.buildCollection();
 collection.fetch();
 
 collection.on('change', () => {
