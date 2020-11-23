@@ -138,6 +138,9 @@ var Model = /*#__PURE__*/function () {
     this.attributes = attributes;
     this.events = events;
     this.sync = sync;
+    this.on = this.events.on;
+    this.trigger = this.events.trigger;
+    this.get = this.attributes.get;
   }
 
   _createClass(Model, [{
@@ -171,21 +174,6 @@ var Model = /*#__PURE__*/function () {
       }).catch(function () {
         _this2.trigger('error');
       });
-    }
-  }, {
-    key: "on",
-    get: function get() {
-      return this.events.on;
-    }
-  }, {
-    key: "trigger",
-    get: function get() {
-      return this.events.trigger;
-    }
-  }, {
-    key: "get",
-    get: function get() {
-      return this.attributes.get;
     }
   }]);
 
