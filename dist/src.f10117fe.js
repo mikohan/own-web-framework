@@ -2285,11 +2285,15 @@ var UserForm = /*#__PURE__*/function () {
     this.onSetNameClick = function () {
       var input = _this.parent.querySelector('input');
 
-      var name = input.value;
+      if (input) {
+        var name = input.value;
 
-      _this.model.set({
-        name: name
-      });
+        _this.model.set({
+          name: name
+        });
+      } else {
+        throw new Error('Element not found');
+      }
     };
 
     this.onSetAgeClick = function () {
@@ -2367,20 +2371,18 @@ var User_1 = require("./models/User");
 
 var UserForm_1 = require("./views/UserForm");
 
-var appDiv = document.getElementById('app');
-
-function render(value) {
-  var content = document.createElement('div');
-  content.innerHTML = "<pre>".concat(JSON.stringify(value, null, 4), "</pre>");
-  appDiv.appendChild(content);
-}
-
 var user = User_1.User.buildUser({
   name: 'Lucie',
   age: 20
 });
-var userForm = new UserForm_1.UserForm(document.querySelector('#app'), user);
-userForm.render();
+var root = document.querySelector('#app');
+
+if (root) {
+  var userForm = new UserForm_1.UserForm(root, user);
+  userForm.render();
+} else {
+  throw new Error('Root element not found');
+}
 },{"./models/User":"src/models/User.ts","./views/UserForm":"src/views/UserForm.ts"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
