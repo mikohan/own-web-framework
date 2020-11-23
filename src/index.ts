@@ -8,7 +8,8 @@ function render(value: any): void {
   content.innerHTML = `<pre>${JSON.stringify(value, null, 4)}</pre>`;
   appDiv.appendChild(content);
 }
+const user = User.buildUser({ name: 'Lucie', age: 20 });
 
-const userForm = new UserForm(document.querySelector('#app'));
+const userForm = new UserForm(document.querySelector('#app'), user);
 
 userForm.render();
