@@ -34,6 +34,16 @@
       "name": "Some New Name",
       "age": 20,
       "id": 8
+    },
+    {
+      "name": "sdfsdfsdf",
+      "age": 77,
+      "id": 9
+    },
+    {
+      "name": "",
+      "age": 77,
+      "id": 10
     }
   ]
 }
