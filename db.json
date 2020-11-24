@@ -24,6 +24,16 @@
       "name": "Sexy Lady",
       "age": 34,
       "id": 6
+    },
+    {
+      "name": "Lucie",
+      "age": 20,
+      "id": 7
+    },
+    {
+      "name": "Some New Name",
+      "age": 20,
+      "id": 8
     }
   ]
 }
